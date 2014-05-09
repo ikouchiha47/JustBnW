@@ -4,24 +4,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Funky B&W</title>
 
-	<link rel = "stylesheet" href ="css/jquery.mobile.structure.min.css"/>
-	<link rel = "stylesheet" href ="css/jquery.mobile.icons.min.css"/>
-
-	<link rel = "stylesheet" href ="css/jquery.mobile.flatui.min.css"/>
-	<link rel = "stylesheet" href ="css/main.css"/>
-
+	<style type="text/css" media = "screen">
+    @import url(css/jquery.mobile.structure.min.css);
+    @import url(css/jquery.mobile.icons.min.css);
+    @import url(css/jquery.mobile.flatui.min.css);
+    @import url(css/main.css);
+    </style> 
 </head>
 
 <body>
 <div data-role ="page" id = "mainpage" class = "ui-body-d">
 	<div data-role="header" data-position="inline">
-		<h1>JustBlacknWhite!</h1>	
+		<h1>JustBlacknWhite</h1>	
 		<a href="#themepage" class="ui-btn ui-corner-all ui-btn-right ui-icon-gear ui-btn-icon-notext" id ="theme">Settings</a>
 	</div><!--header-->
 
-	<div class = "container">
+	<div data-role = "main" class = "container">
 
-		<canvas width = "500"></canvas>
+		<canvas style = "width :auto;" ></canvas>
 
 		<div id = "menu" style = "display : block">
 			<div class = upload">
