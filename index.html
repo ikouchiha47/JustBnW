@@ -1,30 +1,29 @@
-<!DOCTYPE>
+
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Funky B&W</title>
+	<title>Funky BW</title>
 
-	<style type="text/css" media = "screen">
-    @import url(css/jquery.mobile.structure.min.css);
-    @import url(css/jquery.mobile.icons.min.css);
-    @import url(css/jquery.mobile.flatui.min.css);
-    @import url(css/main.css);
-    </style> 
+	<link rel = "stylesheet" href ="css/jquery.mobile.structure.min.css"/>
+	<link rel = "stylesheet" href ="css/jquery.mobile.icons.min.css"/>
+
+	<link rel = "stylesheet" href ="css/jquery.mobile.flatui.min.css"/>
+	<link rel = "stylesheet" href ="css/main.css"/>
+
 </head>
 
 <body>
-<div data-role ="page" id = "mainpage" class = "ui-body-d">
+<div data-role ="page" class = "ui-body-d">
 	<div data-role="header" data-position="inline">
-		<h1>JustBlacknWhite</h1>	
-		<a href="#themepage" class="ui-btn ui-corner-all ui-btn-right ui-icon-gear ui-btn-icon-notext" id ="theme">Settings</a>
+		<h1>Black n White!</h1>	
 	</div><!--header-->
 
-	<div data-role = "main" class = "container">
+	<div class = "container">
 
-		<canvas style = "width :auto;" ></canvas>
+		<canvas width = "500"></canvas>
 
 		<div id = "menu" style = "display : block">
-			<div class = upload">
+			<div class = "upload">
 				<input type = "file" name = "files1[]" id = "files1" accept = "image/jpg, image/png, image/jpeg" />
 			</div><!--upload-->
 
@@ -52,36 +51,12 @@
 				</p>
 			</div>
 			<input id ="save" type = "button" value = "Save"/><br/> 
-			<div id = "dlink" visibility = "hidden" display = "none"/>
+			<div id = "dlink" visibility = "hidden" display = "none"></div>
 
 		</div><!--menu-->
 	</div><!--container-->
 
 </div><!--mainpage-->
-
-	<div data-role = "page" id = "themepage" class = "ui-body-d">
-	<div data-role="header" data-position="inline">
-		<a href = "#mainpage" class="ui-btn ui-corner-all ui-icon-home ui-btn-icon-notext" id ="goback">HOME</a>
-	</div>
-	<div data-role = "main" class = "ui-content">
-		<div id = "content">
-		<ul data-role="listview" style = "display : inline;">
-			<li data-role="list-divider">
-				Themes
-			</li>
-			<li>
-				<a href ="#" class = "themes" id="a" data-transition ="pop">Blue</a>
-			</li>
-			<li>
-				<a href ="#" class = "themes" id="b" data-transition ="pop">Green</a>
-			</li>
-			<li>
-				<a href ="#" class = "themes" id="f" data-transition ="pop">Green</a>
-			</li>
-		</ul>
-		</div>
-	</div>
-
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery.mobile.min.js"></script>

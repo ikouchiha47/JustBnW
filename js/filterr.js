@@ -1,6 +1,6 @@
 var parentCanvas, imageObj, parentBuffer, h, w, rgba, caches = { b: 0, c: 0};
 
-function $$(tagname, classname){
+function $(tagname, classname){
 	if(!classname)
 		return document.getElementsByTagName(tagname);
 	if(!tagname || tagname == '')
@@ -12,14 +12,14 @@ function $$(tagname, classname){
 
 function init(imageObj){
 	var ctx, i, data,
-	    len = $$('canvas').length;
+	    len = $('canvas').length;
 	
 	if (len > 1) {
 		for(i = 0; i < len - 1; i +=1)
-			$$('div','container')[0].removeChild($$('canvas')[len - 1]);
+			$('div','container')[0].removeChild($('canvas')[len - 1]);
 	}
 
-	parentCanvas = $$('canvas')[0];
+	parentCanvas = $('canvas')[0];
 	ctx = parentCanvas.getContext('2d');
 
 	w = (imageObj.naturalWidth < 500) ? imageObj.naturalWidth : 500;
@@ -39,22 +39,22 @@ function Layer() {
 }
 
 Layer.prototype.newLayer = function() {
-	var len = $$('canvas').length;
+	var len = $('canvas').length;
 	this.c.id = len;
-	$$('div','container')[0].appendChild(this.c);
+	$('div','container')[0].appendChild(this.c);
 };
 
 Layer.prototype.copyParent = function() {
-	var len = $$('canvas').length,
-	    ctx2 = $$('canvas')[len-1].getContext('2d');
+	var len = $('canvas').length,
+	    ctx2 = $('canvas')[len-1].getContext('2d');
 	ctx2.drawImage(imageObj, 0, 0, w, h);
 	return ctx2;
 };
 
 Layer.prototype.copyCurrent = function() {
-	var len = $$('canvas').length,
-	    prevCanvas = $$('canvas')[len-2],
-	    ctx2 = $$('canvas')[len-1].getContext('2d');
+	var len = $('canvas').length,
+	    prevCanvas = $('canvas')[len-2],
+	    ctx2 = $('canvas')[len-1].getContext('2d');
 	ctx2.drawImage(prevCanvas, 0, 0);
 	return ctx2;
 };
@@ -75,13 +75,13 @@ Utils.prototype.monochrome = function (brgba, rwt, gwt, bwt) {
 };
 
 Utils.prototype.getthisCanvas = function () {
-	var len = $$('canvas').length;
-	return $$('canvas')[len-1];
+	var len = $('canvas').length;
+	return $('canvas')[len-1];
 };
 
 Utils.prototype.getthisContext = function() {
-	var len = $$('canvas').length,
-	    ctx2 = $$('canvas')[len - 1].getContext('2d');
+	var len = $('canvas').length,
+	    ctx2 = $('canvas')[len - 1].getContext('2d');
 	return ctx2;
 };
 
@@ -263,12 +263,12 @@ var Effects = {
 function process (index) {
 	var i, j, len, data, layer, ctxn, buffer, utils;
 
-	len = $$('canvas').length;
+	len = $('canvas').length;
 	utils = new Utils();
 
 	if (index != 9 && index != 10 && index != 11 && index !=12) {
 		/*if(len > 2)
-		  $$('div','container')[0].removeChild($$('canvas')[len - 1]);
+		  $('div','container')[0].removeChild($('canvas')[len - 1]);
 		  layer = new Layer();
 		  layer.newLayer();*/
 
@@ -330,29 +330,17 @@ function handleSelect (evt) {
 		var save = document.getElementById('save');
 		save.onclick = saveImage;
 	}, false);
+	imageObj.addEventListener('change', function (){
+		init(imageObj);
+		var save = document.getElementById('save');
+		save.onclick = saveImage;
+	}, false);
 	imageObj.crossOrigin = 'Anonymous';
 	imageObj.src = URL.createObjectURL(evt.target.files[0]);
 }
 
-var themer, t;
 
-$.mobile.changeTheme = function (theme) {
-	var themes = " a c d e";
-	function setTheme(csselector,themeclass,theme) {
-		$(csselector).removeClass(themes.split(" ").join(" " + themeclass + "-"))
-		.addClass(themeclass + "-" + theme)
-		.attr('data-theme',theme);
-	}
-	setTheme("[data-role='page']", "ui-body", theme);
-}
-
-
-function handleTheme(i) {
-	themer[i].onclick = function () {
-		$.mobile.changeTheme(themer[i].id);
-	}
-}
-($$('body')[0]).onload = function () {
+($('body')[0]).onload = function () {
 	if (!window.File) {
 		alert("File Upload not Supported");
 	} else {
@@ -367,19 +355,6 @@ function handleTheme(i) {
 			};
 		})(i);
 	}
-
-	$(document).bind('pagecontainershow', function(e, data) {
-		var i;
-		if ($.mobile.activePage.attr('id') == "mainpage") {
-			}
-			if($.mobile.activePage.attr('id') == "themepage") {
-				themer = document.getElementsByClassName('themes');
-				for(i = 0; i < themer.length; i += 1) {
-					handleTheme(i);
-				}
-
-			}
-	});
 
 };
 

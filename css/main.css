@@ -11,11 +11,6 @@ html, body{
 	position : relative;
 	padding: 40px;
 }
-.container-wrapper{
-    text-align: center;
-}
-.container-wrapper * {
-    margin: 0 auto;
 
 canvas {
 	position : absolute;
