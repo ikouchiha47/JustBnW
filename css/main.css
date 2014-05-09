@@ -11,18 +11,16 @@ html, body{
 	position : relative;
 	padding: 40px;
 }
-.container-wrapper{
+/*.container-wrapper{
     text-align: center;
 }
 .container-wrapper * {
     margin: 0 auto;
-
+*/
 canvas {
 	position : absolute;
 	top : 20;
 	left : 20;
-	border: 2px solid gray;
-	border-radius: 10px
 }
 
 
