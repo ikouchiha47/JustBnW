@@ -1,0 +1,92 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Funky B&W</title>
+
+	<link rel = "stylesheet" href ="css/jquery.mobile.structure.min.css"/>
+	<link rel = "stylesheet" href ="css/jquery.mobile.icons.min.css"/>
+
+	<link rel = "stylesheet" href ="css/jquery.mobile.flatui.min.css"/>
+	<link rel = "stylesheet" href ="css/main.css"/>
+
+</head>
+
+<body>
+<div data-role ="page" id = "mainpage" class = "ui-body-d">
+	<div data-role="header" data-position="inline">
+		<h1>JustBlacknWhite!</h1>	
+		<a href="#themepage" class="ui-btn ui-corner-all ui-btn-right ui-icon-gear ui-btn-icon-notext" id ="theme">Settings</a>
+	</div><!--header-->
+
+	<div class = "container">
+
+		<canvas width = "500"></canvas>
+
+		<div id = "menu" style = "display : block">
+			<div class = upload">
+				<input type = "file" name = "files1[]" id = "files1" accept = "image/jpg, image/png, image/jpeg" />
+			</div><!--upload-->
+
+			<input class = "filters" id = "1" type = "button" data-inline="true" value = " Red  "/>
+			<input class = "filters" id = "2" type = "button" data-inline="true" value = " Blue "/>
+			<input class = "filters" id = "3" type = "button" data-inline="true" value = " Green "/>
+			<input class = "filters" id = "4" type = "button" data-inline="true" value = "Normal"/>
+			<input class = "filters" id = "5" type = "button" data-inline="true" value = " Lazy "/>
+			<input class = "filters" id = "6" type = "button" data-inline="true" value = "Orange"/>
+			<input class = "filters" id = "7" type = "button" data-inline="true" value = "Yellow"/>
+			<input class = "filters" id = "8" type = "button" data-inline="true" value = "Purple"/><br/>
+			<div data-role = "collapsible">
+				<h3>Adjustments</h3>
+				<p>
+					<span> <input type = "button" class = "filters" id = "9" data-inline="true" data-mini="true" value = "&lt;"> </span>
+					<span><b> Brightness </b></span> 
+					<span> <input type="button" class = "filters" id = "10" data-inline="true" data-mini="true" value ="&gt;"/> </span>
+					
+				</p>
+
+				<p>
+					<span> <input type = "button" class = "filters" id = "11" data-inline="true" data-mini="true" value = "&lt;"/> </span>
+					<span><b> Contrast </b></span> 
+					<span> <input type = "button" class = "filters" id = "12" data-inline="true" data-mini="true" value ="&gt;" /> </span>
+				</p>
+			</div>
+			<input id ="save" type = "button" value = "Save"/><br/> 
+			<div id = "dlink" visibility = "hidden" display = "none"/>
+
+		</div><!--menu-->
+	</div><!--container-->
+
+</div><!--mainpage-->
+
+	<div data-role = "page" id = "themepage" class = "ui-body-d">
+	<div data-role="header" data-position="inline">
+		<a href = "#mainpage" class="ui-btn ui-corner-all ui-icon-home ui-btn-icon-notext" id ="goback">HOME</a>
+	</div>
+	<div data-role = "main" class = "ui-content">
+		<div id = "content">
+		<ul data-role="listview" style = "display : inline;">
+			<li data-role="list-divider">
+				Themes
+			</li>
+			<li>
+				<a href ="#" class = "themes" id="a" data-transition ="pop">Blue</a>
+			</li>
+			<li>
+				<a href ="#" class = "themes" id="b" data-transition ="pop">Green</a>
+			</li>
+			<li>
+				<a href ="#" class = "themes" id="f" data-transition ="pop">Green</a>
+			</li>
+		</ul>
+		</div>
+	</div>
+
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.mobile.min.js"></script>
+<script type = "application/javascript" src = "js/filterr.js"></script>
+
+</body>
+
+</html>
