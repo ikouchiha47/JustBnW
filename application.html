@@ -1,0 +1,629 @@
+
+<!DOCTYPE>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<title>JustBnW</title>
+
+	<style type="text/css" media = "screen">
+
+	html, body{
+		margin : 0;
+		padding : 0;
+		width : 100%;
+		height : 100%;
+		background : rgb(50,50,50);
+		color : white;
+		position : relative;
+		overflow: hidden;
+		}
+
+	#header {
+		position: relative;
+		/*right :0;
+		left: 0;*/
+		background: #fff;
+		color : black;
+	}
+
+
+	.container {
+		position : relative;
+		height : 92%;
+		width : auto;
+		text-align: center;
+	}
+
+	.upload {
+		z-index : 4;
+	}
+
+	canvas {
+		display: none;
+		visibility: hidden;
+	}
+
+	#files1 {
+		position : absolute;
+		display: none;
+		visibility: hidden;
+	}
+
+	@media all and (orientation : portrait) {
+		#canvas {
+			z-index : 1;
+			height : auto;
+			width : 100%;
+		}
+	}
+
+	@media all and (orientation : landscape) {
+		#canvas {
+			/*display:table-cell;*/
+			z-index : 1; 
+			height : 100%; 
+			width : auto;
+			margin: 0 auto;
+		}
+	}
+
+	@media all and (max-width: 25em){
+		body{
+			font-size : 15px;
+		}
+	}
+
+	@media all and (min-width: 45em){
+		body{
+			font-size : 20px;
+		}
+	}
+
+	@media all and (min-width: 60em){
+		body{
+			font-size : 25px;
+		}
+	}
+
+	#header {
+			height : 2.125em;
+			text-align: center;
+			text-overflow: ellipsis;
+			font-size: 1em;
+			font-weight: bold;
+			box-shadow: 0 0 1px 2px gray;
+		}
+
+		#header-text {
+			position: absolute;
+			left :0; right:0;
+			margin-left: auto; margin-right: auto;
+			margin-top: 0.2em;
+			font-size:1.2em;
+		}
+
+		#upbutton {
+			position : absolute;
+			left :0px;
+			top:0px;
+			bottom : 0px;
+			right : auto;
+		}
+
+		.upload {
+			position : absolute;
+			left :0px;
+			top:0px;
+			bottom : 0px;
+		}
+
+		.saveimg {
+			position: absolute;
+			right : 0px;
+			top : 0px;
+			bottom: 0px;
+			z-index : 2;
+		}
+
+		#save {
+			position: absolute;
+			left: auto;
+			right: 0px;
+			top: 0px;
+			bottom: 0px;
+		}
+
+		#canvas {
+			position: absolute;
+			top: 0px;
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			margin-top: auto;
+			margin-bottom: auto;
+			z-index: 1;		
+		}
+
+		#menu {
+			position : absolute;
+			bottom : 0.125em;
+			left : 0em;
+			width : 100%;
+			z-index: 2;
+		}
+
+		#filters {
+			width : 100%;
+			overflow-x: scroll;
+			overflow-y: hidden;
+			white-space: nowrap; 
+			border-top: 0.1em solid #bbb;
+			border-bottom: 0.1em solid #bbb;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 0.3em;
+			z-index : 2;
+			background: black;
+		}
+
+		#filters a , #filters a:link , #filters a:hover, #filters a:active , #filters a:visited{
+			display: inline;
+			text-decoration: none;
+			font-size: 1.2em;
+			padding: 0px 0.2em;
+			margin: 0px 0.5em;
+			color : #fff;
+		}
+
+		#filters a:active {
+			color: #aaa;
+		}
+
+		#hide-wrapper {
+			position: absolute;
+			bottom : 0px;
+			left: 0px;
+			right: 0px;
+			margin: 0 auto;
+		}
+
+		#collapse {
+			position: absolute;
+			bottom: 0px;
+			right: 0px;
+			left: 0px;
+			margin: 0px auto;
+			z-index: 4;
+			background: black;
+		}
+
+		.inactive {
+			display : none;
+		}
+
+		.active {
+			display : block;
+		}
+
+		input[type = button] {
+			width : 5em;
+			text-overflow : ellipsis;
+			color: black;
+			background: white;
+			border: 1px solid black;
+			font-weight: bold;
+			height:auto;
+		}
+
+		input[type = submit]{
+			width : 2em;
+			background: white;
+			border: 1px solid black;
+			color: black;
+			font-weight: bold;
+			opacity: 0.5;
+		}
+	
+	</style>
+</head>
+
+<body>
+
+	<div id="header">
+		<span class = "upload">
+					<input type = "file" name = "files1[]" id = "files1" accept = "image/jpg, image/png, image/jpeg" />
+					<input type = "button" id = "upbutton" value = "Browse"/>
+		</span>
+			<span id="header-text">JustBnW</span>
+		<span class = "saveimg">
+			<input id ="save" type = "button" value = "Save"/>
+		</span>
+	</div><!--header-->
+	<span id = "hide-wrapper"> <input type = "button" id = "open" value="Open"/></span>
+	<div class = "container">
+			<canvas></canvas>
+		<div id = "menu">
+			<div id = "filters">
+				<a class = "filters" id = "1" href="#">Red</a>
+				<a class = "filters" id = "2" href="#">Blue</a>
+				<a class = "filters" id = "3" href="#">Green</a>
+				<a class = "filters" id = "4" href="#">Normal</a>
+				<a class = "filters" id = "5" href="#">Lazy</a>
+				<a class = "filters" id = "6" href="#">Orange</a>
+				<a class = "filters" id = "7" href="#">Yellow</a>
+				<a class = "filters" id = "8" href="#">Purple</a>
+			</div>
+			
+			<div id = "collapse" class="inactive">
+				<div>
+					<input type = "button" id = "close" value="Close"/><br/>
+					<span> <input type = "submit" class = "filters" id = "9" value ="&lt;"> </span>
+						<span><b> Brightness </b></span> 
+					<span> <input type="submit" class = "filters" id = "10" value ="&gt;"/> </span>
+					
+				</div>
+
+				<div>
+					<span> <input type = "submit" class = "filters" id = "11" value ="&lt;"/> </span>
+						<span><b> Contrast </b></span> 
+					<span> <input type = "submit" class = "filters" id = "12" value ="&gt;" /> </span>
+				</div>
+			</div>
+		</div><!--menu-->
+	</div><!--container--> 
+
+
+<script type="text/javascript">
+var parentCanvas, parentContext, imageObj, parentBuffer, h, w, rgba, caches = { b: 0, c: 0};
+
+function $(tagname, classname){
+	if(!classname)
+		return document.getElementsByTagName(tagname);
+	if(!tagname || tagname == '')
+		return document.getElementsByClassName(classname);
+
+	return document.querySelectorAll(tagname + '.' + classname);
+
+}
+
+function init(imageObj){
+	var ctx, i, data,image,
+	    len = $('canvas').length;
+	parentCanvas = $('canvas')[0];
+	parentContext = parentCanvas.getContext('2d');
+	if(!parentContext) alert("err");
+	w = (imageObj.naturalWidth);
+	h = (imageObj.naturalHeight);
+	parentCanvas.width = w;
+	parentCanvas.height = h;
+	parentContext.drawImage(imageObj, 0, 0, w, h);
+	parentBuffer = parentContext.getImageData(0, 0, w, h);
+	image = document.getElementById("canvas");
+	if(!image){
+		image = document.createElement('img');
+		image.id = "canvas";
+	} 	
+	image.src = parentCanvas.toDataURL("image/png");
+	$('','container')[0].appendChild(image);
+	//fit();
+}
+
+function fit(){
+	document.getElementById("canvas").src = parentCanvas.toDataURL("image/png");
+}
+
+function Utils () {}
+
+Utils.prototype.monochrome = function (brgba, rwt, gwt, bwt) {
+	var opr, scale;
+        scale = 1 / (rwt + gwt + bwt);
+	rwt *= scale;
+	gwt *= scale;
+	bwt *= scale;
+
+	opr = parseInt(brgba.r) * rwt + parseInt(brgba.g) * gwt + parseInt(brgba.b) * bwt ;
+	
+	return opr;
+};
+
+Utils.prototype.getthisCanvas = function () {
+	var len = $('canvas').length;
+	return $('canvas')[len-1];
+};
+
+Utils.prototype.getthisContext = function() {
+	var len = $('canvas').length,
+	    ctx2 = $('canvas')[len - 1].getContext('2d');
+	return ctx2;
+};
+
+Utils.prototype.getParentContext = function() {
+	var ct = parentCanvas.getContext('2d');
+	ct.drawImage(imageObj,0, 0, w, h);
+	return ct;
+};	
+
+Utils.prototype.adjustBrightness = function (brgba, mag, charge) {
+	var opr, adjust = mag * charge;
+	opr = {
+		r : (brgba.r + adjust),
+	    g : (brgba.g + adjust),
+		b : (brgba.b + adjust),
+		a : brgba.a
+	};
+	return opr;
+	
+};
+
+Utils.prototype.adjustContrast = function (brgba, mag, charge) {
+	var opr, adjust = mag * charge,
+	    factor = (259 * (adjust + 255)) / (255 * (259 - adjust));
+	opr = {
+		r : (factor * (brgba.r   - 128) + 128),
+	    g : (factor * (brgba.g   - 128) + 128),
+		b : (factor * (brgba.b   - 128) + 128),
+		a : brgba.a
+	};
+	return opr;
+};
+
+Utils.prototype.adjustGamma = function (brgba, mag, charge) {
+	var opr, factor = Math.pow(mag ,charge) - 1;
+	opr = {
+		r : Math.pow(brgba.r, factor),
+	    g : Math.pow(brgba.g, factor),
+		b : Math.pow(brgba.b, factor),
+		a : brgba.a
+	};
+	return opr;
+};
+
+var Effects = {
+	'1' : function redfilterbw (brgba) {
+		var utils = new Utils();
+		var res = utils.monochrome(brgba, 1, 0, 0);
+		rgba = {
+			r : res,
+			g : res,
+			b : res,
+			a : brgba.a
+		};
+	},
+
+	'2' : function bluefilterbw(brgba) {
+		var utils = new Utils();
+		var res = utils.monochrome(brgba, 0, 0, 1);
+		rgba = {
+			r : res,
+			g : res,
+			b : res,
+			a : brgba.a
+		};
+	},
+
+	'3' : function greenfilterbw (brgba) {
+		var utils = new Utils();
+		var res = utils.monochrome(brgba, 0, 1, 0);
+		rgba = {
+			r : res,
+			g : res,
+			b : res,
+			a : brgba.a
+		};
+	},
+
+	'4' : function simplebw(brgba){
+		var utils = new Utils();
+		var res = utils.monochrome(brgba, 2, 1, 1);
+		rgba = {
+			r : res,
+			g : res,
+			b : res,
+			a : brgba.a
+		};
+	},
+
+	'5' : function composite1 (brgba) {
+		var utils = new Utils();
+		var res = utils.monochrome(brgba, 5, 1, 4);
+		rgba = {
+			r : res,
+			g : res,
+			b : res,
+			a : brgba.a
+		};
+	},
+	'6' : function orangebw (brgba) {
+		var utils = new Utils();
+		var res = utils.monochrome(brgba, 1, 1, 0);
+		rgba = {
+			r : res,
+			g : res,
+			b : res,
+			a : brgba.a
+		};
+		
+	},
+	'7' : function orangebw (brgba) {
+		var utils = new Utils();
+		var res = utils.monochrome(brgba, 2, 1, 0);
+		rgba = {
+			r : res,
+			g : res,
+			b : res,
+			a : brgba.a
+		};
+		
+	},
+	'8' : function purplebw (brgba) {
+		var utils = new Utils();
+		var res = utils.monochrome(brgba, 1, 0, 1);
+		rgba = {
+			r : res,
+			g : res,
+			b : res,
+			a : brgba.a
+		};
+		
+	},
+	'9' : function subbrightness(brgba) {
+		var utils = new Utils();
+		var res = utils.adjustBrightness(brgba,8,-1);
+		rgba = {
+			r : res.r,
+			g : res.g,
+			b : res.b,
+			a : brgba.a
+		};
+	},
+	'10' : function addbrightness(brgba) {
+		var utils = new Utils();
+		var res = utils.adjustBrightness(brgba,8,1);
+		rgba = {
+			r : res.r,
+			g : res.g,
+			b : res.b,
+			a : brgba.a
+		};
+	},
+	'11' : function subcontrast(brgba) {
+		var utils = new Utils();
+		var res = utils.adjustContrast(brgba,5,-1);
+		rgba = {
+			r : res.r,
+			g : res.g,
+			b : res.b,
+			a : brgba.a
+		};
+	},
+	'12' : function addcontrast(brgba) {
+		var utils = new Utils();
+		var res = utils.adjustContrast(brgba,5,1);
+		rgba = {
+			r : res.r,
+			g : res.g,
+			b : res.b,
+			a : brgba.a
+		};
+	}
+
+};
+
+
+//var filter;
+
+function process (index) {
+	var i, j, len, data, layer, ctxn, buffer, utils;
+
+	//len = $('canvas').length;
+	utils = new Utils();
+
+	if (index != 9 && index != 10 && index != 11 && index !=12) {
+		ctxn = utils.getParentContext();
+	} else {
+		ctxn = utils.getthisContext();
+	}
+
+	buffer = ctxn.getImageData(0, 0, w, h);
+	data = buffer.data;
+
+	for(i = 0; i < data.length; i += 4){
+		rgba = {
+			r : data[i],
+			g : data[i+1],
+			b : data[i+2],
+			a : data[i+3]
+		};
+		window['Effects'][index](rgba);
+		data[i] = parseInt(rgba.r);
+		data[i+1] = parseInt(rgba.g);
+		data[i+2] = parseInt(rgba.b);
+	}
+
+	ctxn.putImageData(buffer, 0, 0);
+	fit();
+}
+
+
+function saveImage() {
+	var canvas, dataURL,
+	    ua = window.navigator.userAgent,
+	    utils = new Utils();
+
+	canvas = utils.getthisCanvas();
+	dataURL = canvas.toDataURL("image/png");
+
+	if (ua.indexOf("Chrome") > 0) {
+		var link = document.createElement('a');
+		link.download = "test.png";
+		link.href = dataURL.replace("image/png", "image/octet-stream");
+		link.click();
+	} else {
+		document.location.href = dataURL;
+	}
+}
+
+
+function handleSelect (evt) {
+	imageObj = new Image();
+	imageObj.addEventListener('load', function (){
+		if(parentContext) {
+			parentContext.clearRect(0, 0, w, h);
+		}
+		init(imageObj);
+		var save = document.getElementById('save');
+		save.onclick = saveImage;
+	}, false);
+	imageObj.addEventListener('change', function (){
+		init(imageObj);
+		var save = document.getElementById('save');
+		save.onclick = saveImage;
+	}, false);
+	imageObj.crossOrigin = 'Anonymous';
+	imageObj.src = URL.createObjectURL(evt.target.files[0]);
+}
+
+function hide_seek(closenode, opennode, collapsenode) {
+	var p;
+	document.getElementById(closenode).onclick = function() { 
+		p = document.getElementById(collapsenode); 
+		p.removeAttribute('class');
+		p.setAttribute('class','inactive'); 
+	};
+
+	document.getElementById(opennode).onclick = function() {
+		p = document.getElementById(collapsenode);
+		p.removeAttribute('class');
+		p.setAttribute('class','active');
+	};
+
+}
+
+($('body')[0]).onload = function () {
+	if (!window.File) {
+		alert("File Upload not Supported");
+	} else {
+		var fSelect = document.getElementById("files1");
+		fSelect.addEventListener('change', handleSelect, false);
+	}
+	document.getElementById('upbutton').onclick = function() {
+		document.getElementById('files1').click();
+	}
+
+	var p = document.getElementsByClassName('filters');
+	for(var i = 0; i < p.length; i += 1){
+		(function(_i){
+			(document.getElementById(p[_i].id)).onclick = function(){
+			       process(p[_i].id.toString());
+			};
+		})(i);
+	}
+	hide_seek('close', 'open', 'collapse');
+
+};
+
+</script>
+
+</body>
+
+</html>
