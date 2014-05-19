@@ -1,0 +1,27 @@
+{
+	"version" : "1.0",
+	"name" : "JustB&W",
+	"description" : "Add dept to your photos, making them Black and White.",
+	"launch_path" : "/application.html",
+	"icons" : {
+			"16" :"/images/photo-16.png",
+			"128" : "/images/photo.png"
+	},
+	"developer" : {
+			"name" : "Amitava Ghosh",
+			"url" : "https://pigeonhole.github.com/JustBnW"
+	},
+	"chrome" : {"navigation" : true},
+	"fullscreen" : false,
+	"orientation" : ["potrait", "landscape-secondary"],
+	"type" : "privileged",
+	"permissions" : {
+			"device-storage:pictures" : {
+			"access" : "readwrite",
+			"description" : "Save image to pictures"
+			}
+	},
+
+	"installs_allowed_from" : ["*"],
+	"default-locale":"en"
+	}

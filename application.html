@@ -2,10 +2,17 @@
 <!DOCTYPE>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale =1.0, user-scalable=no">
 	<title>JustBnW</title>
 
 	<style type="text/css" media = "screen">
+	
+	@font-face{
+		font-family:"Lato";
+		src : url('./fonts/lato-black.ttf') format('woff'),
+			  url('./fonts/lato-black.eof'),
+			  url('./fonts/lato-black.ttf') format('truetype');
+	}
 
 	html, body{
 		margin : 0;
@@ -16,7 +23,9 @@
 		color : white;
 		position : relative;
 		overflow: hidden;
-		}
+		font-family: Lato, Verdana, Arial, sans-serif;
+	}
+
 
 	#header {
 		position: relative;
@@ -58,6 +67,11 @@
 	}
 
 	@media all and (orientation : landscape) {
+		
+		body {
+			font-size: 18px;
+		}
+
 		#canvas {
 			/*display:table-cell;*/
 			z-index : 1; 
@@ -65,25 +79,27 @@
 			width : auto;
 			margin: 0 auto;
 		}
+
 	}
 
-	@media all and (max-width: 25em){
+	@media all and (max-width: 25em) and (orientation : portrait){
 		body{
 			font-size : 15px;
 		}
 	}
 
-	@media all and (min-width: 45em){
+	@media all and (min-width: 45em) and (orientation : portrait){
 		body{
 			font-size : 20px;
 		}
 	}
 
-	@media all and (min-width: 60em){
+	@media all and (min-width: 60em) and (orientation : portrait){
 		body{
 			font-size : 25px;
 		}
 	}
+
 
 	#header {
 			height : 2.125em;
@@ -91,7 +107,8 @@
 			text-overflow: ellipsis;
 			font-size: 1em;
 			font-weight: bold;
-			box-shadow: 0 0 1px 2px gray;
+			border:1px solid black;
+			background: darkorange;
 		}
 
 		#header-text {
@@ -131,6 +148,7 @@
 			right: 0px;
 			top: 0px;
 			bottom: 0px;
+			z-index: 2;
 		}
 
 		#canvas {
@@ -146,10 +164,12 @@
 
 		#menu {
 			position : absolute;
-			bottom : 0.125em;
+			bottom : 1em;
 			left : 0em;
 			width : 100%;
 			z-index: 2;
+			background: white;
+			opacity : 0.57;
 		}
 
 		#filters {
@@ -163,7 +183,8 @@
 			margin-right: auto;
 			padding: 0.3em;
 			z-index : 2;
-			background: black;
+			background: transparent;
+			-webkit-overflow-scrolling : touch;
 		}
 
 		#filters a , #filters a:link , #filters a:hover, #filters a:active , #filters a:visited{
@@ -172,11 +193,12 @@
 			font-size: 1.2em;
 			padding: 0px 0.2em;
 			margin: 0px 0.5em;
-			color : #fff;
+			color : #000;
+			font-weight: bold;
 		}
 
 		#filters a:active {
-			color: #aaa;
+			color: #777;
 		}
 
 		#hide-wrapper {
@@ -208,11 +230,12 @@
 		input[type = button] {
 			width : 5em;
 			text-overflow : ellipsis;
-			color: black;
-			background: white;
+			color: white;
+			background: black;
 			border: 1px solid black;
 			font-weight: bold;
 			height:auto;
+			padding :0;
 		}
 
 		input[type = submit]{
@@ -239,7 +262,7 @@
 			<input id ="save" type = "button" value = "Save"/>
 		</span>
 	</div><!--header-->
-	<span id = "hide-wrapper"> <input type = "button" id = "open" value="Open"/></span>
+	
 	<div class = "container">
 			<canvas></canvas>
 		<div id = "menu">
@@ -252,6 +275,8 @@
 				<a class = "filters" id = "6" href="#">Orange</a>
 				<a class = "filters" id = "7" href="#">Yellow</a>
 				<a class = "filters" id = "8" href="#">Purple</a>
+				<span style = "margin-right : 0.125em;"> <a id = "open" href = "#"> Adjust </a> </span>
+
 			</div>
 			
 			<div id = "collapse" class="inactive">
@@ -274,7 +299,7 @@
 
 
 <script type="text/javascript">
-var parentCanvas, parentContext, imageObj, parentBuffer, h, w, rgba, caches = { b: 0, c: 0};
+var parentCanvas, parentContext, imageObj, parentBuffer, h, w, rgba, fileName;
 
 function $(tagname, classname){
 	if(!classname)
@@ -309,6 +334,7 @@ function init(imageObj){
 }
 
 function fit(){
+	document.getElementById("canvas").src = "";
 	document.getElementById("canvas").src = parentCanvas.toDataURL("image/png");
 }
 
@@ -544,21 +570,45 @@ function process (index) {
 	fit();
 }
 
+function saveAsBlob(blob) {
+	var i=0, filename,
+			storage = navigator.getDeviceStorage('pictures'), req;
+    
+    var generate = function(){
+    	var rand = Math.floor(Math.random() * 100001);
+    	filename = fileName + "-" + rand + ".png";
+    };
+    generate();
+	req = storage.addNamed(blob, filename);
+	alert(filename);
+	req.onsuccess = function() {
+		alert("saved to gallery!");
+	};
+
+	req.onerror = function(e) {
+			saveAsBlob(blob);
+	};
+}
 
 function saveImage() {
-	var canvas, dataURL,
+	var canvas, dataURL, blob,
 	    ua = window.navigator.userAgent,
 	    utils = new Utils();
-
 	canvas = utils.getthisCanvas();
 	dataURL = canvas.toDataURL("image/png");
 
-	if (ua.indexOf("Chrome") > 0) {
+	if (ua.indexOf("Chrome") >= 0) {
 		var link = document.createElement('a');
 		link.download = "test.png";
 		link.href = dataURL.replace("image/png", "image/octet-stream");
 		link.click();
-	} else {
+	} else if(ua.indexOf("Mozilla") >= 0) {
+		blob = new Blob([dataURL], {type : "image/png"});
+		canvas.toBlob( function(blob) {
+			saveAsBlob(blob);
+		}, "image/png");
+	}
+	else {
 		document.location.href = dataURL;
 	}
 }
@@ -580,7 +630,11 @@ function handleSelect (evt) {
 		save.onclick = saveImage;
 	}, false);
 	imageObj.crossOrigin = 'Anonymous';
-	imageObj.src = URL.createObjectURL(evt.target.files[0]);
+	var file = evt.target.files[0];
+	fileName = file.name;
+	fileName = fileName.substring(0, fileName.lastIndexOf("."));
+	alert(fileName);
+	imageObj.src = URL.createObjectURL(file);
 }
 
 function hide_seek(closenode, opennode, collapsenode) {
