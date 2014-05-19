@@ -10,14 +10,20 @@ function $(tagname, classname){
 
 }
 
+//draw the selected inamge on canvas
+
 function init(imageObj){
 	var ctx, i, data,
 	    len = $('canvas').length;
 	
-	if (len > 1) {
+	/*if (len > 1) {
 		for(i = 0; i < len - 1; i +=1)
 			$('div','container')[0].removeChild($('canvas')[len - 1]);
+<<<<<<< HEAD
 	}
+=======
+	}*/
+>>>>>>> 317f6caee593b93dad39e0c6af18941e7ead2f7a
 
 	parentCanvas = $('canvas')[0];
 	ctx = parentCanvas.getContext('2d');
@@ -32,26 +38,40 @@ function init(imageObj){
 	
 }
 
+//for adding new layers. One canvas on top of another
+//Not currently used. Reserved for later
 function Layer() {
 	this.c = document.createElement('canvas');
 	this.c.width = w;
 	this.c.height = h;
 }
 
+<<<<<<< HEAD
 Layer.prototype.newLayer = function() {
+=======
+Layer.prototype.newLayer = function() { //append a newly created canvas element
+>>>>>>> 317f6caee593b93dad39e0c6af18941e7ead2f7a
 	var len = $('canvas').length;
 	this.c.id = len;
 	$('div','container')[0].appendChild(this.c);
 };
 
+<<<<<<< HEAD
 Layer.prototype.copyParent = function() {
+=======
+Layer.prototype.copyParent = function() { //copy the original image for the new canvas maybe
+>>>>>>> 317f6caee593b93dad39e0c6af18941e7ead2f7a
 	var len = $('canvas').length,
 	    ctx2 = $('canvas')[len-1].getContext('2d');
 	ctx2.drawImage(imageObj, 0, 0, w, h);
 	return ctx2;
 };
 
+<<<<<<< HEAD
 Layer.prototype.copyCurrent = function() {
+=======
+Layer.prototype.copyCurrent = function() { // copy the current image of the visible topmost canvas
+>>>>>>> 317f6caee593b93dad39e0c6af18941e7ead2f7a
 	var len = $('canvas').length,
 	    prevCanvas = $('canvas')[len-2],
 	    ctx2 = $('canvas')[len-1].getContext('2d');
@@ -59,10 +79,28 @@ Layer.prototype.copyCurrent = function() {
 	return ctx2;
 };
 
-
+//Utility library.
 function Utils () {}
 
-Utils.prototype.monochrome = function (brgba, rwt, gwt, bwt) {
+
+Utils.prototype.getthisCanvas = function () {//get the canvas object for the topmost canvas visible to user
+	var len = $('canvas').length;
+	return $('canvas')[len-1];
+};
+
+Utils.prototype.getthisContext = function() { //get th context of the topmost canvas
+	var len = $('canvas').length,
+	    ctx2 = $('canvas')[len - 1].getContext('2d');
+	return ctx2;
+};
+
+Utils.prototype.getParentContext = function() { //get the context of the original image uploaded
+	var ct = parentCanvas.getContext('2d');
+	ct.drawImage(imageObj,0, 0, w, h); // before returning the parent context the original image is drawn on topmost canvas
+	return ct;
+};	
+
+Utils.prototype.monochrome = function (brgba, rwt, gwt, bwt) { //conerting the image to single color
 	var opr, scale;
         scale = 1 / (rwt + gwt + bwt);
 	rwt *= scale;
@@ -74,6 +112,7 @@ Utils.prototype.monochrome = function (brgba, rwt, gwt, bwt) {
 	return opr;
 };
 
+<<<<<<< HEAD
 Utils.prototype.getthisCanvas = function () {
 	var len = $('canvas').length;
 	return $('canvas')[len-1];
@@ -92,6 +131,11 @@ Utils.prototype.getParentContext = function() {
 };	
 
 Utils.prototype.adjustBrightness = function (brgba, mag, charge) {
+=======
+Utils.prototype.adjustBrightness = function (brgba, mag, charge) { //adjust the brightness
+	//charge can be +ve or -ve. i.e increase or decrease
+	//mag is the magnitude of adjustment
+>>>>>>> 317f6caee593b93dad39e0c6af18941e7ead2f7a
 	var opr, adjust = mag * charge;
 	opr = {
 		r : (brgba.r + adjust),
@@ -103,7 +147,7 @@ Utils.prototype.adjustBrightness = function (brgba, mag, charge) {
 	
 };
 
-Utils.prototype.adjustContrast = function (brgba, mag, charge) {
+Utils.prototype.adjustContrast = function (brgba, mag, charge) { //ajus the contrast
 	var opr, adjust = mag * charge,
 	    factor = (259 * (adjust + 255)) / (255 * (259 - adjust));
 	opr = {
@@ -115,7 +159,7 @@ Utils.prototype.adjustContrast = function (brgba, mag, charge) {
 	return opr;
 };
 
-Utils.prototype.adjustGamma = function (brgba, mag, charge) {
+Utils.prototype.adjustGamma = function (brgba, mag, charge) { //adjust the whiteness. resered for later
 	var opr, factor = Math.pow(mag ,charge) - 1;
 	opr = {
 		r : Math.pow(brgba.r, factor),
@@ -126,6 +170,14 @@ Utils.prototype.adjustGamma = function (brgba, mag, charge) {
 	return opr;
 };
 
+Utils.prototype.vigenette = function (brgba, mag, charge) { //make a radial white gradient
+//reserved for later
+};
+
+
+//applying different lens filter
+//the chrome of the image is adjusted and a rgba object a=is returned for each pixel
+//is called from process()
 var Effects = {
 	'1' : function redfilterbw (brgba) {
 		var utils = new Utils();
@@ -258,14 +310,17 @@ var Effects = {
 };
 
 
-//var filter;
 
+//main function that calls the specific functions for manipulaating each pixel on image
 function process (index) {
 	var i, j, len, data, layer, ctxn, buffer, utils;
 
 	len = $('canvas').length;
 	utils = new Utils();
-
+	
+	//if the user clicks on brightness or contrast adjustment, get the current Context
+	//otherwise get the original image context
+	
 	if (index != 9 && index != 10 && index != 11 && index !=12) {
 		/*if(len > 2)
 		  $('div','container')[0].removeChild($('canvas')[len - 1]);
@@ -278,47 +333,47 @@ function process (index) {
 	}
 
 	buffer = ctxn.getImageData(0, 0, w, h);
-	data = buffer.data;
+	data = buffer.data; //get buffered image array containing pixel information 
 
-	for(i = 0; i < data.length; i += 4){
+	for(i = 0; i < data.length; i += 4){ //seperate the rgba values and manipulate them
 		rgba = {
 			r : data[i],
 			g : data[i+1],
 			b : data[i+2],
 			a : data[i+3]
 		};
-		window['Effects'][index](rgba);
+		window['Effects'][index](rgba); //translates to Effects[id](parameters)
+		//put the new data back. rba has been declared global. Some the last change made are reflected here
 		data[i] = parseInt(rgba.r);
 		data[i+1] = parseInt(rgba.g);
 		data[i+2] = parseInt(rgba.b);
 	}
 
-	ctxn.putImageData(buffer, 0, 0);
+	ctxn.putImageData(buffer, 0, 0); //put back the new buffer to display the new image
 }
 
-function saveImage() {
+function saveImage() { //save the image to local disk
 	var canvas, dataURL,
 	    ua = window.navigator.userAgent,
 	    utils = new Utils();
 
 	canvas = utils.getthisCanvas();
 	dataURL = canvas.toDataURL("image/png");
-
+	
+	//if its chrome initiate a download else open the image in browser seperately
+	
 	if (ua.indexOf("Chrome") > 0) {
 		var link = document.createElement('a');
 		link.download = "test.png";
 		link.href = dataURL.replace("image/png", "image/octet-stream");
 		link.click();
 	} else {
-		/* ua.indexOf("Mozilla")
-		   var imgElem = document.createElement("img");
-		   imgElem.src = dataURL;*/
-
-		var link = document.createElement('a');
+		document.link.href = dataURL.replace("image/png", "image/octet-stream");
+		/*var link = document.createElement('a');
 		link.download = "test.png";
 		link.href = dataURL;
 		document.getElementById('dlink').appendChild(link);
-		link.click();
+		link.click();*/
 	}
 }
 

@@ -11,13 +11,20 @@ html, body{
 	position : relative;
 	padding: 40px;
 }
+<<<<<<< HEAD
 
+=======
+/*.container-wrapper{
+    text-align: center;
+}
+.container-wrapper * {
+    margin: 0 auto;
+*/
+>>>>>>> 317f6caee593b93dad39e0c6af18941e7ead2f7a
 canvas {
 	position : absolute;
 	top : 20;
 	left : 20;
-	border: 2px solid gray;
-	border-radius: 10px
 }
 
 
