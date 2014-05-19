@@ -3,7 +3,7 @@
 
 ##Black and White your images with six filters.
 ###Just Open it in Browser.
-###You may need a local server like mongoose to be able to upload inorder to prevent cross origin issue (not for mobiles)
+####You may need a local server like mongoose to be able to upload inorder to prevent cross origin issue (not for mobiles)
 <ul>
 <li>Browse for your image.</li>
 <li>Apply one of the filters. Each filter is independent of another.</li>
