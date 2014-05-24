@@ -1,4 +1,4 @@
-var parentCanvas, parentContext, imageObj, parentBuffer, h, w, rgba, caches = { b: 0, c: 0};
+var parentCanvas, parentContext, imageObj, parentBuffer, h, w, rgba, fileName;
 
 function $(tagname, classname){
 	if(!classname)
@@ -33,6 +33,7 @@ function init(imageObj){
 }
 
 function fit(){
+	document.getElementById("canvas").src = "";
 	document.getElementById("canvas").src = parentCanvas.toDataURL("image/png");
 }
 
@@ -45,7 +46,7 @@ Utils.prototype.monochrome = function (brgba, rwt, gwt, bwt) {
 	gwt *= scale;
 	bwt *= scale;
 
-	opr = parseInt(brgba.r) * rwt + parseInt(brgba.g) * gwt + parseInt(brgba.b) * bwt ;
+	opr = (+brgba.r) * rwt + (+brgba.g) * gwt + (+brgba.b) * bwt ;;
 	
 	return opr;
 };
@@ -259,30 +260,53 @@ function process (index) {
 			a : data[i+3]
 		};
 		window['Effects'][index](rgba);
-		data[i] = parseInt(rgba.r);
-		data[i+1] = parseInt(rgba.g);
-		data[i+2] = parseInt(rgba.b);
+		data[i] = rgba.r;
+		data[i+1] = rgba.g;
+		data[i+2] = rgba.b;
 	}
 
 	ctxn.putImageData(buffer, 0, 0);
 	fit();
 }
 
+function saveAsBlob(blob) {
+	var i=0, filename,
+			storage = navigator.getDeviceStorage('pictures'), req;
+    
+    var generate = function(){
+    	var rand = Math.floor(Math.random() * 100001);
+    	filename = fileName + "-" + rand + ".png";
+    };
+    generate();
+	req = storage.addNamed(blob, filename);
+	req.onsuccess = function() {
+		alert("saved to gallery!");
+	};
+
+	req.onerror = function(e) {
+			saveAsBlob(blob);
+	};
+}
 
 function saveImage() {
-	var canvas, dataURL,
+	var canvas, dataURL, blob,
 	    ua = window.navigator.userAgent,
 	    utils = new Utils();
-
 	canvas = utils.getthisCanvas();
 	dataURL = canvas.toDataURL("image/png");
 
-	if (ua.indexOf("Chrome") > 0) {
+	if (ua.indexOf("Chrome") >= 0) {
 		var link = document.createElement('a');
 		link.download = "test.png";
 		link.href = dataURL.replace("image/png", "image/octet-stream");
 		link.click();
-	} else {
+	} else if(ua.indexOf("Mozilla") >= 0) {
+		blob = new Blob([dataURL], {type : "image/png"});
+		canvas.toBlob( function(blob) {
+			saveAsBlob(blob);
+		}, "image/png");
+	}
+	else {
 		document.location.href = dataURL;
 	}
 }
@@ -304,7 +328,10 @@ function handleSelect (evt) {
 		save.onclick = saveImage;
 	}, false);
 	imageObj.crossOrigin = 'Anonymous';
-	imageObj.src = URL.createObjectURL(evt.target.files[0]);
+	var file = evt.target.files[0];
+	fileName = file.name;
+	fileName = fileName.substring(0, fileName.lastIndexOf("."));
+	imageObj.src = URL.createObjectURL(file);
 }
 
 function hide_seek(closenode, opennode, collapsenode) {

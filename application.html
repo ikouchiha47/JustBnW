@@ -14,7 +14,8 @@
 	
 	@font-face{
 		font-family:"Lato";
-		src : url('./fonts/lato-black.ttf') format('woff'),
+		src : 
+			  url('./fonts/lato-black.ttf') format('woff'),
 			  url('./fonts/lato-black.eof'),
 			  url('./fonts/lato-black.ttf') format('truetype');
 	}
@@ -304,7 +305,7 @@
 
 
 <script type="text/javascript">
-var parentCanvas, parentContext, imageObj, parentBuffer, h, w, rgba, fileName;
+var parentCanvas, parentContext, imageObj, parentBuffer, h, w, rgba, fileName, utils;
 
 function $(tagname, classname){
 	if(!classname)
@@ -315,6 +316,7 @@ function $(tagname, classname){
 	return document.querySelectorAll(tagname + '.' + classname);
 
 }
+
 
 function init(imageObj){
 	var ctx, i, data,image,
@@ -352,7 +354,7 @@ Utils.prototype.monochrome = function (brgba, rwt, gwt, bwt) {
 	gwt *= scale;
 	bwt *= scale;
 
-	opr = parseInt(brgba.r) * rwt + parseInt(brgba.g) * gwt + parseInt(brgba.b) * bwt ;
+	opr = (+brgba.r) * rwt + (+brgba.g) * gwt + (+brgba.b) * bwt ;
 	
 	return opr;
 };
@@ -409,9 +411,10 @@ Utils.prototype.adjustGamma = function (brgba, mag, charge) {
 	return opr;
 };
 
+
 var Effects = {
 	'1' : function redfilterbw (brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.monochrome(brgba, 1, 0, 0);
 		rgba = {
 			r : res,
@@ -422,7 +425,7 @@ var Effects = {
 	},
 
 	'2' : function bluefilterbw(brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.monochrome(brgba, 0, 0, 1);
 		rgba = {
 			r : res,
@@ -433,7 +436,7 @@ var Effects = {
 	},
 
 	'3' : function greenfilterbw (brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.monochrome(brgba, 0, 1, 0);
 		rgba = {
 			r : res,
@@ -444,7 +447,7 @@ var Effects = {
 	},
 
 	'4' : function simplebw(brgba){
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.monochrome(brgba, 2, 1, 1);
 		rgba = {
 			r : res,
@@ -455,7 +458,7 @@ var Effects = {
 	},
 
 	'5' : function composite1 (brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.monochrome(brgba, 5, 1, 4);
 		rgba = {
 			r : res,
@@ -464,8 +467,8 @@ var Effects = {
 			a : brgba.a
 		};
 	},
-	'6' : function orangebw (brgba) {
-		var utils = new Utils();
+	'6' : function yellowbw (brgba) {
+		//var utils = new Utils();
 		var res = utils.monochrome(brgba, 1, 1, 0);
 		rgba = {
 			r : res,
@@ -476,7 +479,7 @@ var Effects = {
 		
 	},
 	'7' : function orangebw (brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.monochrome(brgba, 2, 1, 0);
 		rgba = {
 			r : res,
@@ -487,7 +490,7 @@ var Effects = {
 		
 	},
 	'8' : function purplebw (brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.monochrome(brgba, 1, 0, 1);
 		rgba = {
 			r : res,
@@ -498,7 +501,7 @@ var Effects = {
 		
 	},
 	'9' : function subbrightness(brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.adjustBrightness(brgba,8,-1);
 		rgba = {
 			r : res.r,
@@ -508,7 +511,7 @@ var Effects = {
 		};
 	},
 	'10' : function addbrightness(brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.adjustBrightness(brgba,8,1);
 		rgba = {
 			r : res.r,
@@ -518,7 +521,7 @@ var Effects = {
 		};
 	},
 	'11' : function subcontrast(brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.adjustContrast(brgba,5,-1);
 		rgba = {
 			r : res.r,
@@ -528,7 +531,7 @@ var Effects = {
 		};
 	},
 	'12' : function addcontrast(brgba) {
-		var utils = new Utils();
+		//var utils = new Utils();
 		var res = utils.adjustContrast(brgba,5,1);
 		rgba = {
 			r : res.r,
@@ -544,10 +547,10 @@ var Effects = {
 //var filter;
 
 function process (index) {
-	var i, j, len, data, layer, ctxn, buffer, utils;
+	var i, j, len, data, layer, ctxn, buffer;
 
 	//len = $('canvas').length;
-	utils = new Utils();
+	//utils = new Utils();
 
 	if (index != 9 && index != 10 && index != 11 && index !=12) {
 		ctxn = utils.getParentContext();
@@ -557,7 +560,7 @@ function process (index) {
 
 	buffer = ctxn.getImageData(0, 0, w, h);
 	data = buffer.data;
-
+    var t1 = new Date();
 	for(i = 0; i < data.length; i += 4){
 		rgba = {
 			r : data[i],
@@ -566,12 +569,13 @@ function process (index) {
 			a : data[i+3]
 		};
 		window['Effects'][index](rgba);
-		data[i] = parseInt(rgba.r);
-		data[i+1] = parseInt(rgba.g);
-		data[i+2] = parseInt(rgba.b);
+		data[i] = rgba.r;
+		data[i+1] = rgba.g;
+		data[i+2] = rgba.b;
 	}
 
 	ctxn.putImageData(buffer, 0, 0);
+	alert(new Date() - t1);
 	fit();
 }
 
@@ -597,8 +601,7 @@ function saveAsBlob(blob) {
 
 function saveImage() {
 	var canvas, dataURL, blob,
-	    ua = window.navigator.userAgent,
-	    utils = new Utils();
+	    ua = window.navigator.userAgent;
 	canvas = utils.getthisCanvas();
 	dataURL = canvas.toDataURL("image/png");
 
@@ -638,7 +641,7 @@ function handleSelect (evt) {
 	var file = evt.target.files[0];
 	fileName = file.name;
 	fileName = fileName.substring(0, fileName.lastIndexOf("."));
-	alert(fileName);
+	//alert(fileName);
 	imageObj.src = URL.createObjectURL(file);
 }
 
@@ -657,6 +660,7 @@ function hide_seek(closenode, opennode, collapsenode) {
 	};
 
 }
+
 
 ($('body')[0]).onload = function () {
 	if (!window.File) {
@@ -677,6 +681,7 @@ function hide_seek(closenode, opennode, collapsenode) {
 			};
 		})(i);
 	}
+	utils = new Utils();
 	hide_seek('close', 'open', 'collapse');
 
 };
