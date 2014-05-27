@@ -14,17 +14,26 @@
    <li>In Firefox OS, the image is saved to gallery.</li>
 </ul>
 </ul>
-<hr/>
-vf 1.0
 -----------
-Basic implementations with lots of rgb objects created.
+
+1. vf 1.0
+
 -----------
-vf 1.2
+
+..* Basic implementations with lots of rgb objects created.
+
 -----------
-Same filters but static objects removed and one Filter function.
-The above resulted faster when <a href="http://jsperf.com/closure-prototype-static-performance/22">tested</a>
-The events are directly attached to 'id' instead of class traversal.
-Processing is done directly on pixels without passing and tossing objects here and there.
-Processing is threading based, number of threads vary from 3 to 5.
+
+2. vf 1.2
+
 -----------
+
+..* Same filters but static objects removed and one Filter function.
+..* The above resulted faster when <a href="http://jsperf.com/closure-prototype-static-performance/22">tested</a>
+..* The events are directly attached to 'id' instead of class traversal.
+..* Processing is done directly on pixels without passing and tossing objects here and there.
+..* Processing is threading based, number of threads vary from 3 to 5.
+
+-----------
+
 Contact : princeofpersiaa3.ag@gmail.com
