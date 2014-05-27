@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale =1.0, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html">
+    <meta name="description" content="A Simple Black and White filter Web App"> 
+    <meta name="author" content="Amitava Ghosh">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="web,html5,firefox os,app,web app,image,filter">
+    <title>JustB&amp;W</title>
+    <link rel = "stylesheet" href = "./main.css" media = "screen"/>
+</head>
+<body>
+
+    <div id="header">
+        <span class = "upload">
+                    <input type = "file" name = "files1[]" id = "files1" accept = "image/jpg, image/png, image/jpeg" />
+                    <input type = "button" id = "upbutton" value = "Browse"/>
+        </span>
+            <span id="header-text">JustBnW</span>
+        <span class = "saveimg">
+            <input id ="save" type = "button" value = "Save"/>
+        </span>
+    </div><!--header-->
+    
+    <div class = "container">
+            <canvas id="target"></canvas>
+            <canvas id="source"></canvas>
+        <div id = "menu">
+            <div id = "filters">
+                <a class = "filters" id = "red" href="#">Red</a>
+                <a class = "filters" id = "blue" href="#">Blue</a>
+                <a class = "filters" id = "green" href="#">Green</a>
+                <a class = "filters" id = "normal" href="#">Normal</a>
+                <a class = "filters" id = "orange" href="#">Orange</a>
+                <a class = "filters" id = "yellow" href="#">Yellow</a>
+                <a class = "filters" id = "purple" href="#">Purple</a>
+                <a class = "filters" id = "sepia" href="#">Sepia</a>
+                <span style = "margin-right : 0.125em;"> <a id = "open" href = "#"> Adjust </a> </span>
+
+            </div>
+            
+            <div id = "collapse" class="inactive">
+                <div>
+                    <input type = "button" id = "close" value="Close"/>
+                </div>
+                <div>
+                    <p><span> <input type = "submit" class = "filters" id = "9" value ="&lt;"> </span>
+                        <span><b> Brightness </b></span> 
+                    <span> <input type="submit" class = "filters" id = "10" value ="&gt;"/> </span></p>
+                    
+                </div>
+
+                <div>
+                    <p><span> <input type = "submit" class = "filters" id = "11" value ="&lt;"/> </span>
+                        <span><b> Contrast </b></span> 
+                    <span> <input type = "submit" class = "filters" id = "12" value ="&gt;" /> </span></p>
+                </div>
+            </div>
+        </div><!--menu-->
+    <div id = "log"></div>
+    </div><!--container--> 
+    
+</body>
+
+<script src="tools.js"></script>
+<script src="main.js"></script>
+</html>

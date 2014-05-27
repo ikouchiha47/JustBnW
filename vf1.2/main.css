@@ -1,0 +1,245 @@
+﻿
+    html, body{
+        margin : 0;
+        padding : 0;
+        width : 100%;
+        height : 100%;
+        background : rgb(50,50,50);
+        color : white;
+        position : relative;
+        overflow: hidden;
+        font-family: sans-serif;
+    }
+
+
+    #header {
+        position: relative;
+        /*right :0;
+        left: 0;*/
+        background: #fff;
+        color : black;
+    }
+
+
+    .container {
+        position : relative;
+        height : 93%;
+        width : auto;
+        text-align: center;
+    }
+
+    .upload {
+        z-index : 4;
+    }
+
+
+
+    #files1 {
+        position : absolute;
+        display: none;
+        visibility: hidden;
+    }
+
+    @media all and (orientation : portrait) {
+        canvas {
+            z-index : 1;
+            height : auto;
+            width : 100%;
+        }
+    }
+
+    @media all and (orientation : landscape) {
+        
+        body {
+            font-size: 18px;
+        }
+
+        canvas {
+            /*display:table-cell;*/
+            z-index : 1; 
+            height : 100%; 
+            width : auto;
+            margin: 0 auto;
+        }
+
+    }
+
+    @media all and (max-width: 25em) and (orientation : portrait){
+        body{
+            font-size : 15px;
+        }
+    }
+
+    @media all and (min-width: 45em) and (orientation : portrait){
+        body{
+            font-size : 20px;
+        }
+    }
+
+    @media all and (min-width: 60em) and (orientation : portrait){
+        body{
+            font-size : 25px;
+        }
+    }
+
+
+    #header {
+            height : 2.125em;
+            text-align: center;
+            text-overflow: ellipsis;
+            font-size: 1em;
+            font-weight: bold;
+            border:1px solid black;
+            background: darkorange;
+        }
+
+        #header-text {
+            position: absolute;
+            left :0; right:0;
+            margin-left: auto; margin-right: auto;
+            margin-top: 0.2em;
+            font-size:1.2em;
+        }
+
+        #upbutton {
+            position : absolute;
+            left :0px;
+            top:0px;
+            bottom : 0px;
+            right : auto;
+        }
+
+        .upload {
+            position : absolute;
+            left :0px;
+            top:0px;
+            bottom : 0px;
+        }
+
+        .saveimg {
+            position: absolute;
+            right : 0px;
+            top : 0px;
+            bottom: 0px;
+            z-index : 2;
+        }
+
+        #save {
+            position: absolute;
+            left: auto;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            z-index: 2;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            margin-top: auto;
+            margin-bottom: auto;
+            z-index: 1;     
+        }
+
+        #source {
+            z-index :0;
+        }
+
+        #menu {
+            position : absolute;
+            bottom : 1em;
+            left : 0em;
+            width : 100%;
+            z-index: 2;
+            background: white;
+            opacity : 0.57;
+        }
+
+        #filters {
+            width : 100%;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            white-space: nowrap; 
+            border-top: 0.1em solid #bbb;
+            border-bottom: 0.1em solid #bbb;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0.3em;
+            z-index : 2;
+            background: transparent;
+            -webkit-overflow-scrolling : touch;
+        }
+
+        #filters a , #filters a:link , #filters a:hover, #filters a:active , #filters a:visited{
+            display: inline;
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 0px 0.2em;
+            margin: 0px 0.5em;
+            color : #000;
+            font-weight: bold;
+        }
+
+        #filters a:active {
+            color: #777;
+        }
+
+        #hide-wrapper {
+            position: absolute;
+            bottom : 0px;
+            left: 0px;
+            right: 0px;
+            margin: 0 auto;
+        }
+
+        #collapse {
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+            margin: 0px auto;
+            z-index: 4;
+            background: black;
+        }
+
+        #log {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size:0.7em;
+        }
+
+        .inactive {
+            display : none;
+        }
+
+        .active {
+            display : block;
+        }
+
+        input[type = button] {
+            width : 5em;
+            text-overflow : ellipsis;
+            color: white;
+            background: black;
+            border: 1px solid black;
+            font-weight: bold;
+            height:auto;
+            padding :0;
+        }
+
+        input[type = submit]{
+            width : 2em;
+            background: white;
+            border: 1px solid black;
+            color: black;
+            font-weight: bold;
+            opacity: 1;
+        }
+        p {
+            padding : 0.5em; 
+        }
+    

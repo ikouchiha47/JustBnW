@@ -1,0 +1,35 @@
+{
+	"version" : "1.2",
+	"name" : "JustB&W",
+	"description" : "Add depth to your photos, making them Black and White.",
+	"launch_path" : "/index.html",
+	"icons" : {
+			"16" :"/images/photo16.png",
+			"32" :"/images/photo32.png",
+			"60" :"/images/photo60.png",
+			"90" :"/images/photo90.png",
+			"120" :"/images/photo120.png",
+			"128" : "/images/photo128.png",
+			"256" :"/images/photo256.png"
+	},
+	"developer" : {
+			"name" : "Amitava Ghosh",
+			"url" : "https://github.com/pigeonhole/JustBnW"
+	},
+	"chrome" : {"navigation" : true},
+	"orientation" : ["portrait", "landscape-secondary"],
+	"type" : "privileged",
+	"permissions" : {
+			"device-storage:pictures" : {
+			"access" : "readwrite",
+			"description" : "Save image to pictures"
+			},
+			"device-storage:sdcard" : {
+			"access" : "readwrite",
+			"description" : "Save image to pictures"
+			}
+	},
+
+	"installs_allowed_from" : ["*"],
+	"default-locale":"en"
+	}
