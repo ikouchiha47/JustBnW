@@ -29,7 +29,7 @@ function $(name){
         parentContext = parentCanvas.getContext("2d");
         len = parentCanvas.width * parentCanvas.height * 4;
 
-        parentContext.drawImage(imageObj, 0, 0, parentCanvas.width, parentCanvas.height);  
+        parentContext.drawImage(imageObj, 0.5, 0.5, parentCanvas.width, parentCanvas.height);  
         secondCanvas = $('#target');
         secondCanvas.width = parentCanvas.width;
         secondCanvas.height = parentCanvas.height;
@@ -48,7 +48,7 @@ function $(name){
             var canvasData = e.data.result;
             var index = e.data.index;
 
-            secondContext.putImageData(canvasData, 0, blockSize * index);
+            secondContext.putImageData(canvasData, 0.5, blockSize * index);
 
             finished++;
 
@@ -63,7 +63,7 @@ function $(name){
             var worker = new Worker("pictureProcessor.js");
             worker.onmessage = onWorkEnded;
 
-            var canvasData = tempContext.getImageData(0, blockSize * index, canvas.width, blockSize);
+            var canvasData = tempContext.getImageData(0.5, blockSize * index + 0.5, canvas.width+0.5, blockSize+0.5);
             worker.postMessage({ data: canvasData, index: index, length: segmentLength, process : processor });
         }
 
